@@ -49,12 +49,23 @@ func readCommand() int {
 
 func startMonitoring() {
 	fmt.Println("Monitorando...")
-	url := "https://www.alura.com.br"
-	res, _ := http.Get(url)
+	sites := []string{
+		"https://random-stastus-code.herokuapp.com",
+		"https://www.alura.com.br",
+		"https://www.caelum.com.br",
+	}
+
+	for _, site := range sites {
+		testSite(site)
+	}
+}
+
+func testSite(site string) {
+	res, _ := http.Get(site)
 
 	if res.StatusCode == 200 {
-		fmt.Println("Site:", url, "carregado corretamente")
+		fmt.Println("Site:", site, "carregado corretamente")
 	} else {
-		fmt.Println("Site:", url, "está com problemas. Status code", res.StatusCode)
+		fmt.Println("Site:", site, "está com problemas. Status code", res.StatusCode)
 	}
 }
