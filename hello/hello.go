@@ -2,24 +2,28 @@ package main
 
 import (
 	"fmt"
+	"net/http"
 	"os"
 )
 
 func main() {
 	showIntro()
-	showMenu()
-	command := readCommand()
 
-	switch command {
-	case 1:
-		startMonitoring()
-	case 2:
-		fmt.Println("Exibindo logs...")
-	case 0:
-		os.Exit(0)
-	default:
-		fmt.Println("Não conheço esta instrução")
-		os.Exit(-1)
+	for {
+		showMenu()
+		command := readCommand()
+
+		switch command {
+		case 1:
+			startMonitoring()
+		case 2:
+			fmt.Println("Exibindo logs...")
+		case 0:
+			os.Exit(0)
+		default:
+			fmt.Println("Não conheço esta instrução")
+			os.Exit(-1)
+		}
 	}
 }
 
@@ -45,4 +49,12 @@ func readCommand() int {
 
 func startMonitoring() {
 	fmt.Println("Monitorando...")
+	url := "https://www.alura.com.br"
+	res, _ := http.Get(url)
+
+	if res.StatusCode == 200 {
+		fmt.Println("Site:", url, "carregado corretamente")
+	} else {
+		fmt.Println("Site:", url, "está com problemas. Status code", res.StatusCode)
+	}
 }
