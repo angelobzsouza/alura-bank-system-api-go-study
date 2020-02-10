@@ -79,6 +79,7 @@ func testSite(site string) {
 	} else {
 		fmt.Println("Site:", site, "está com problemas. Status code", res.StatusCode)
 	}
+	registryLog(site, res.StatusCode == 200)
 }
 
 func getSites() []string {
@@ -102,4 +103,22 @@ func getSites() []string {
 
 	file.Close()
 	return sites
+}
+
+func registryLog(site string, online bool) {
+	logFile, err := os.OpenFile("log.log", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
+	if err != nil {
+		fmt.Println("Error: ", err)
+	}
+
+	var status string
+	if online {
+		status = "online"
+	} else {
+		status = "offline"
+	}
+
+	logFile.WriteString(time.Now().Format("02/01/2006 15:04:05") + " - Site: " + site + " Status: " + status + "\n")
+
+	logFile.Close()
 }
