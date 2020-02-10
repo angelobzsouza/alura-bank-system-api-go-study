@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"io"
+	"io/ioutil"
 	"net/http"
 	"os"
 	"strings"
@@ -24,7 +25,7 @@ func main() {
 		case 1:
 			startMonitoring()
 		case 2:
-			fmt.Println("Exibindo logs...")
+			showLogs()
 		case 0:
 			os.Exit(0)
 		default:
@@ -121,4 +122,13 @@ func registryLog(site string, online bool) {
 	logFile.WriteString(time.Now().Format("02/01/2006 15:04:05") + " - Site: " + site + " Status: " + status + "\n")
 
 	logFile.Close()
+}
+
+func showLogs() {
+	logFile, err := ioutil.ReadFile("log.log")
+	if err != nil {
+		fmt.Println("Error: ", err)
+	}
+
+	fmt.Println(string(logFile))
 }
