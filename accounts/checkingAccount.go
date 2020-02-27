@@ -1,19 +1,21 @@
 package accounts
 
-import "../owners"
+import (
+	"../owners"
+)
 
 type ChekingAccount struct {
 	Owner   owners.Owner
 	Agency  int
 	Account int
-	Balance float64
+	balance float64
 }
 
 func (c *ChekingAccount) Withdraw(withdrawVal float64) bool {
-	canWithdraw := withdrawVal <= c.Balance && withdrawVal > 0
+	canWithdraw := withdrawVal <= c.balance && withdrawVal > 0
 
 	if canWithdraw {
-		c.Balance -= withdrawVal
+		c.balance -= withdrawVal
 		return true
 	}
 	return false
@@ -21,19 +23,23 @@ func (c *ChekingAccount) Withdraw(withdrawVal float64) bool {
 
 func (c *ChekingAccount) Deposit(depositVal float64) bool {
 	if depositVal > 0 {
-		c.Balance += depositVal
+		c.balance += depositVal
 		return true
 	}
 	return false
 }
 
 func (c *ChekingAccount) Transfer(transferVal float64, destAccount *ChekingAccount) bool {
-	canTransfer := transferVal <= c.Balance && transferVal > 0
+	canTransfer := transferVal <= c.balance && transferVal > 0
 
 	if canTransfer {
-		destAccount.Balance += transferVal
-		c.Balance -= transferVal
+		destAccount.balance += transferVal
+		c.balance -= transferVal
 		return true
 	}
 	return false
+}
+
+func (c *ChekingAccount) getBalance() float64 {
+	return c.balance
 }
