@@ -4,14 +4,14 @@ import (
 	"../owners"
 )
 
-type ChekingAccount struct {
+type CheckingAccount struct {
 	Owner   owners.Owner
 	Agency  int
 	Account int
 	balance float64
 }
 
-func (c *ChekingAccount) Withdraw(withdrawVal float64) bool {
+func (c *CheckingAccount) Withdraw(withdrawVal float64) bool {
 	canWithdraw := withdrawVal <= c.balance && withdrawVal > 0
 
 	if canWithdraw {
@@ -21,7 +21,7 @@ func (c *ChekingAccount) Withdraw(withdrawVal float64) bool {
 	return false
 }
 
-func (c *ChekingAccount) Deposit(depositVal float64) bool {
+func (c *CheckingAccount) Deposit(depositVal float64) bool {
 	if depositVal > 0 {
 		c.balance += depositVal
 		return true
@@ -29,7 +29,7 @@ func (c *ChekingAccount) Deposit(depositVal float64) bool {
 	return false
 }
 
-func (c *ChekingAccount) Transfer(transferVal float64, destAccount *ChekingAccount) bool {
+func (c *CheckingAccount) Transfer(transferVal float64, destAccount *CheckingAccount) bool {
 	canTransfer := transferVal <= c.balance && transferVal > 0
 
 	if canTransfer {
@@ -40,6 +40,6 @@ func (c *ChekingAccount) Transfer(transferVal float64, destAccount *ChekingAccou
 	return false
 }
 
-func (c *ChekingAccount) getBalance() float64 {
+func (c *CheckingAccount) getBalance() float64 {
 	return c.balance
 }
